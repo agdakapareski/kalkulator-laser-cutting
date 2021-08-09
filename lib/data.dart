@@ -9,7 +9,7 @@ String? selectedKerumitan;
 String? selectedPackaging;
 String? selectedFinishing;
 List<String> material = ['MS', 'SUS', 'AL', 'none'];
-List<String> ketebalan = ['0.8', '1', '1.5', '2', '3', '5'];
+List<String> ketebalan = ['0.8', '1', '1.5', '2', '2.5', '3'];
 List<String> kerumitan = ['low', 'medium', 'high'];
 List<String> finishing = ['none', 'cat', 'polish'];
 List<String> packaging = ['yes', 'no'];
@@ -17,12 +17,20 @@ List<String> packaging = ['yes', 'no'];
 hitung(int panjang, int lebar, double tebal, String material, String kerumitan,
     String finishing, String packaging) {
   double hargaMaterialPerKg = 0;
-  double hargaMS = 25000;
-  double hargaSUS = 50000;
-  double hargaAL = 40000;
+  double hargaMS = 20000;
+  double hargaSUS = 80000;
+  double hargaAL = 80000;
+  double berat = 0;
 
-  double hargaCat = 20000;
-  double hargaPolish = 25000;
+  double beratJenisMS = 7.85;
+  double beratJenisAL = 2.7;
+
+  double hargaCat = 8000;
+  double hargaPolish = 2000;
+
+  double hargaLaserMS = 6500;
+  double hargaLaserAL = 12000;
+  double hpp = 0;
 
   double nilaiKerumitan = 0;
   double hargaFinishing = 0;
@@ -43,12 +51,23 @@ hitung(int panjang, int lebar, double tebal, String material, String kerumitan,
 
   packaging == 'yes' ? hargaPackaging = 1000 : hargaPackaging = 0;
 
-  double berat =
-      (tebal * lebar.toDouble() * panjang.toDouble() * 7.85) / 1000000;
+  if (material == 'MS' || material == 'SUS') {
+    berat = (tebal * lebar.toDouble() * panjang.toDouble() * beratJenisMS) /
+        1000000;
+  } else {
+    berat = (tebal * lebar.toDouble() * panjang.toDouble() * beratJenisAL) /
+        1000000;
+  }
 
-  double hpp = berat *
-      nilaiKerumitan *
-      (hargaMaterialPerKg + 8000 + hargaFinishing + hargaPackaging);
+  if (material == "MS" || material == "SUS") {
+    hpp = berat *
+        nilaiKerumitan *
+        (hargaMaterialPerKg + hargaLaserMS + hargaFinishing + hargaPackaging);
+  } else {
+    hpp = berat *
+        nilaiKerumitan *
+        (hargaMaterialPerKg + hargaLaserAL + hargaFinishing + hargaPackaging);
+  }
 
   return hpp;
 }

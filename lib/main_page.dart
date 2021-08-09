@@ -423,7 +423,7 @@ class _MainPageState extends State<MainPage> {
                 Container(
                   alignment: Alignment.center,
                   child: Text(
-                    'v 1.0.0',
+                    'v 21.8.1',
                     style: TextStyle(
                       color: Colors.grey,
                     ),
