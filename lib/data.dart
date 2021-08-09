@@ -17,9 +17,9 @@ List<String> packaging = ['yes', 'no'];
 hitung(int panjang, int lebar, double tebal, String material, String kerumitan,
     String finishing, String packaging) {
   double hargaMaterialPerKg = 0;
-  double hargaMS = 20000;
-  double hargaSUS = 80000;
-  double hargaAL = 80000;
+  double hargaMS = 22000;
+  double hargaSUS = 90000;
+  double hargaAL = 90000;
   double berat = 0;
 
   double beratJenisMS = 7.85;
@@ -28,8 +28,8 @@ hitung(int panjang, int lebar, double tebal, String material, String kerumitan,
   double hargaCat = 8000;
   double hargaPolish = 2000;
 
-  double hargaLaserMS = 6500;
-  double hargaLaserAL = 12000;
+  double hargaLaserMS = 18000;
+  double hargaLaserAL = 25000;
   double hpp = 0;
 
   double nilaiKerumitan = 0;
