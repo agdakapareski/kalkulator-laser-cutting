@@ -1,6 +1,7 @@
 import 'package:calculator_app/Input_widget.dart';
 import 'package:calculator_app/logo_title_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'data.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -306,11 +307,8 @@ class _MainPageState extends State<MainPage> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                          ),
-                          onPressed: () {
+                        child: GestureDetector(
+                          onTap: () {
                             setState(() {
                               panjangController.text = '';
                               lebarController.text = '';
@@ -323,20 +321,25 @@ class _MainPageState extends State<MainPage> {
                               hpp = '0';
                             });
                           },
-                          child: Text(
-                            'Clear',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                              ),
+                              height: 38,
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.refresh,
+                                color: Colors.white,
+                              )),
                         ),
                       ),
                       const SizedBox(
-                        width: 10,
+                        width: 5,
                       ),
                       Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
+                        flex: 5,
+                        child: GestureDetector(
+                          onTap: () {
                             if (panjangController.text == '' ||
                                 lebarController.text == '') {
                               showToast(
@@ -376,10 +379,54 @@ class _MainPageState extends State<MainPage> {
                               });
                             }
                           },
-                          child: Text('Hitung'),
+                          child: Container(
+                            height: 38,
+                            alignment: Alignment.center,
+                            color: Color(0xFF268ECD),
+                            child: Text(
+                              'Hitung',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Nego harga? Hubungi '),
+                      InkWell(
+                        child: Text(
+                          'Om Heru',
+                          style: TextStyle(
+                            color: Color(0xFF268ECD),
+                          ),
+                        ),
+                        onTap: () {
+                          launch('https://wa.me/6281225829568');
+                        },
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'v 1.0.0',
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ],
