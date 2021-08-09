@@ -364,9 +364,10 @@ class _MainPageState extends State<MainPage> {
                                   selectedFinishing!,
                                   selectedPackaging!,
                                 );
-                                double edited = ((hasil / 1000) + 0.5) *
+                                double edited = ((hasil / 1000) + 0.5);
+                                double round = (edited.roundToDouble()) *
+                                    1000 *
                                     int.parse(jumlahController.text);
-                                double round = (edited.roundToDouble()) * 1000;
 
                                 hpp = NumberFormat.simpleCurrency(
                                   name: 'Rp. ',
