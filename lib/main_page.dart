@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key key}) : super(key: key);
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -68,7 +68,7 @@ class _MainPageState extends State<MainPage> {
                     hint: selectedKetebalan == null
                         ? Text('Ketebalan')
                         : Text(
-                            selectedKetebalan,
+                            selectedKetebalan!,
                             style: TextStyle(color: Colors.black),
                           ),
                     isExpanded: true,
@@ -85,7 +85,7 @@ class _MainPageState extends State<MainPage> {
                     onChanged: (val) {
                       setState(
                         () {
-                          selectedKetebalan = val;
+                          selectedKetebalan = val as String?;
                         },
                       );
                     },
@@ -106,7 +106,7 @@ class _MainPageState extends State<MainPage> {
                     hint: selectedMaterial == null
                         ? Text('Material')
                         : Text(
-                            selectedMaterial,
+                            selectedMaterial!,
                             style: TextStyle(color: Colors.black),
                           ),
                     isExpanded: true,
@@ -125,7 +125,7 @@ class _MainPageState extends State<MainPage> {
                     onChanged: (val) {
                       setState(
                         () {
-                          selectedMaterial = val;
+                          selectedMaterial = val as String?;
                         },
                       );
                     },
@@ -146,7 +146,7 @@ class _MainPageState extends State<MainPage> {
                     hint: selectedKerumitan == null
                         ? Text('Kerumitan')
                         : Text(
-                            selectedKerumitan,
+                            selectedKerumitan!,
                             style: TextStyle(color: Colors.black),
                           ),
                     isExpanded: true,
@@ -163,7 +163,7 @@ class _MainPageState extends State<MainPage> {
                     onChanged: (val) {
                       setState(
                         () {
-                          selectedKerumitan = val;
+                          selectedKerumitan = val as String;
                         },
                       );
                     },
@@ -188,7 +188,7 @@ class _MainPageState extends State<MainPage> {
                             hint: selectedFinishing == null
                                 ? Text('Finishing')
                                 : Text(
-                                    selectedFinishing,
+                                    selectedFinishing!,
                                     style: TextStyle(color: Colors.black),
                                   ),
                             isExpanded: true,
@@ -205,7 +205,7 @@ class _MainPageState extends State<MainPage> {
                             onChanged: (val) {
                               setState(
                                 () {
-                                  selectedFinishing = val;
+                                  selectedFinishing = val as String?;
                                 },
                               );
                             },
@@ -227,7 +227,7 @@ class _MainPageState extends State<MainPage> {
                             hint: selectedPackaging == null
                                 ? Text('Packaging')
                                 : Text(
-                                    selectedPackaging,
+                                    selectedPackaging!,
                                     style: TextStyle(color: Colors.black),
                                   ),
                             isExpanded: true,
@@ -244,7 +244,7 @@ class _MainPageState extends State<MainPage> {
                             onChanged: (val) {
                               setState(
                                 () {
-                                  selectedPackaging = val;
+                                  selectedPackaging = val as String?;
                                 },
                               );
                             },
@@ -353,11 +353,11 @@ class _MainPageState extends State<MainPage> {
                               double hasil = hitung(
                                 int.parse(panjangController.text),
                                 int.parse(lebarController.text),
-                                double.parse(selectedKetebalan),
-                                selectedMaterial,
-                                selectedKerumitan,
-                                selectedFinishing,
-                                selectedPackaging,
+                                double.parse(selectedKetebalan!),
+                                selectedMaterial!,
+                                selectedKerumitan!,
+                                selectedFinishing!,
+                                selectedPackaging!,
                               );
                               double edited = ((hasil / 1000) + 0.5) *
                                   int.parse(jumlahController.text);
@@ -383,7 +383,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  showToast({String message}) {
+  showToast({required String message}) {
     return Fluttertoast.showToast(
       msg: message,
       backgroundColor: Colors.red,
