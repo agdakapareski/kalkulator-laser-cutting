@@ -20,6 +20,9 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
+          width: MediaQuery.of(context).size.width > 700
+              ? MediaQuery.of(context).size.width * 0.6
+              : MediaQuery.of(context).size.width,
           alignment: Alignment.center,
           child: ListView(
             shrinkWrap: true,
