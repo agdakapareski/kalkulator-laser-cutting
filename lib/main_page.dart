@@ -21,7 +21,7 @@ class _MainPageState extends State<MainPage> {
       body: SafeArea(
         child: Center(
           child: Container(
-            width: MediaQuery.of(context).size.width > 700
+            width: MediaQuery.of(context).size.width > 800
                 ? MediaQuery.of(context).size.width * 0.4
                 : MediaQuery.of(context).size.width,
             alignment: Alignment.center,
