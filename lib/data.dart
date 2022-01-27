@@ -2,17 +2,185 @@ import 'package:flutter/material.dart';
 
 TextEditingController panjangController = TextEditingController();
 TextEditingController lebarController = TextEditingController();
-TextEditingController jumlahController = TextEditingController();
+
+TextEditingController panjangLaserCuttingController = TextEditingController();
+TextEditingController lebarLaserCuttingController = TextEditingController();
+
+TextEditingController jumlahController = TextEditingController(text: '1');
+TextEditingController hargaMaterialController = TextEditingController();
+TextEditingController hargaLaserController = TextEditingController();
+TextEditingController pengerjaanDesainController = TextEditingController();
+TextEditingController profitController = TextEditingController();
+
+double jumlahItem = 1;
+
+double panjangLaserCutting = double.parse(panjangLaserCuttingController.text);
+double lebarLaserCutting = double.parse(lebarLaserCuttingController.text);
+
+double beratMaterialUtuh = 0;
+double beratMaterialCutting = 0;
+
+double totalHargaMaterial = 0;
+
+double hargaJasaLaser = 0;
+
+double estimasiBeratPengiriman = 0;
+double hargaProduksi = 0;
+double totalHargaProduksi = 0;
+
+double hargaPackaging = 0;
+double beratPackaging = 0;
+
 String? selectedMaterial;
 String? selectedKetebalan;
 String? selectedKerumitan;
 String? selectedPackaging;
 String? selectedFinishing;
-List<String> material = ['MS', 'SUS', 'AL', 'none'];
+List<String> material = ['MS', 'SUS', 'AL'];
 List<String> ketebalan = ['0.8', '1', '1.5', '2', '2.5', '3'];
 List<String> kerumitan = ['low', 'medium', 'high'];
-List<String> finishing = ['none', 'cat', 'polish'];
-List<String> packaging = ['yes', 'no'];
+List<String> finishing = ['none', 'cat', 'cat 2 warna', 'polish'];
+List<String> packaging = ['tanpa packaging', 'wrap', 'kardus'];
+
+double hitungHargaBerdasarkanPanjang(double panjang, double harga) {
+  if (panjang <= harga) {
+    return harga;
+  } else {
+    return harga * (panjang / harga);
+  }
+}
+
+double rumusHargaPackaging(String packaging, double panjang) {
+  double hargaBahanPackaging = 0;
+
+  if (packaging == 'wrap') {
+    hargaBahanPackaging = hitungHargaBerdasarkanPanjang(panjang, 1000);
+  } else if (packaging == 'kardus') {
+    hargaBahanPackaging = hitungHargaBerdasarkanPanjang(panjang, 11000);
+  } else {
+    hargaBahanPackaging = 0;
+  }
+
+  return hargaBahanPackaging;
+}
+
+rumusBeratPackaging(double panjang) {
+  beratPackaging = 0.5 * (panjang / 1000);
+}
+
+// fungsi untuk menghitung berat material sesuai ukuran
+rumusBeratMaterialUtuh(
+  int panjang,
+  int lebar,
+  double tebal,
+  String material,
+) {
+  // variabel untuk menampung hasil perhitungan berat
+  double berat = 0;
+
+  // variabel berat jenis material MS
+  double beratJenisMS = 7.85;
+
+  // variabel berat jenis material AL
+  double beratJenisAL = 2.7;
+
+  if (material == 'MS' || material == 'SUS') {
+    berat = (tebal * lebar.toDouble() * panjang.toDouble() * beratJenisMS) /
+        1000000;
+  } else if (material == 'AL') {
+    berat = (tebal * lebar.toDouble() * panjang.toDouble() * beratJenisAL) /
+        1000000;
+  } else {
+    berat = 0;
+  }
+
+  return berat;
+}
+
+double rumusHargaMaterial(double berat, String inputHarga) {
+  double hargaAngka = 0;
+  if (inputHarga == '') {
+    hargaAngka = 0;
+  } else {
+    hargaAngka = double.parse(inputHarga);
+  }
+  double harga = berat * hargaAngka;
+  return harga;
+}
+
+double rumusHargaJasaLaserCutting(
+  double berat,
+  double desain,
+  String hargaPerKilo,
+  String kerumitan,
+  String finishing,
+) {
+  double harga = 0;
+  double nilaiKerumitan = 0;
+  double hargaFinishing = 0;
+
+  switch (kerumitan) {
+    case 'low':
+      nilaiKerumitan = 1.3;
+      break;
+    case 'medium':
+      nilaiKerumitan = 1.6;
+      break;
+    case 'high':
+      nilaiKerumitan = 1.9;
+      break;
+    default:
+      nilaiKerumitan = 0;
+      break;
+  }
+
+  switch (finishing) {
+    case 'cat':
+      hargaFinishing = 8000;
+      break;
+    case 'cat 2 warna':
+      hargaFinishing = 16000;
+      break;
+    case 'polish':
+      hargaFinishing = 2000;
+      break;
+    default:
+      hargaFinishing = 0;
+      break;
+  }
+
+  harga = berat * double.parse(hargaPerKilo) * nilaiKerumitan +
+      hargaFinishing +
+      (desain * 1000);
+
+  return harga;
+}
+
+class CustomTitle extends StatelessWidget {
+  const CustomTitle({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  final String? text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
+      child: Text(
+        text!,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+        ),
+      ),
+    );
+  }
+}
 
 hitung(int panjang, int lebar, double tebal, String material, String kerumitan,
     String finishing, String packaging) {
