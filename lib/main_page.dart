@@ -69,38 +69,6 @@ class _MainPageState extends State<MainPage> {
         locale: 'id',
       ).format(hargaTotal);
     });
-    // if (panjangController.text == '' || lebarController.text == '') {
-    //   showToast(message: 'panjang / lebar masih kosong!');
-    // } else if (selectedKetebalan == null) {
-    //   showToast(message: 'ketebalan masih kosong!');
-    // } else if (selectedKerumitan == null) {
-    //   showToast(message: 'kerumitan masih kosong!');
-    // } else if (jumlahController.text == '') {
-    //   showToast(message: 'jumlah masih kosong!');
-    // } else {
-    //   setState(() {
-    //     if (selectedMaterial == null) selectedMaterial = 'none';
-    //     if (selectedFinishing == null) selectedFinishing = 'none';
-    //     if (selectedPackaging == null) selectedPackaging = 'no';
-    //     double hasil = hitung(
-    //       int.parse(panjangController.text),
-    //       int.parse(lebarController.text),
-    //       double.parse(selectedKetebalan!),
-    //       selectedMaterial!,
-    //       selectedKerumitan!,
-    //       selectedFinishing!,
-    //       selectedPackaging!,
-    //     );
-    //     double edited = ((hasil / 1000) + 0.5);
-    //     double round =
-    //         (edited.roundToDouble()) * 1000 * int.parse(jumlahController.text);
-
-    //     hpp = NumberFormat.simpleCurrency(
-    //       name: 'Rp. ',
-    //       locale: 'id',
-    //     ).format(round);
-    //   });
-    // }
   }
 
   @override
@@ -747,13 +715,29 @@ class _MainPageState extends State<MainPage> {
                             setState(() {
                               panjangController.text = '';
                               lebarController.text = '';
-                              jumlahController.text = '';
+                              jumlahController.text = '1';
+                              panjangLaserCuttingController.text = '';
+                              lebarLaserCuttingController.text = '';
+                              hargaMaterialController.text = '';
+                              hargaLaserController.text = '';
+                              pengerjaanDesainController.text = '';
+                              profitController.text = '';
                               selectedKetebalan = null;
                               selectedMaterial = null;
                               selectedKerumitan = null;
                               selectedFinishing = null;
                               selectedPackaging = null;
                               hargaTotal = 0;
+                              jumlahItem = 1;
+                              beratMaterialUtuh = 0;
+                              beratMaterialCutting = 0;
+                              totalHargaMaterial = 0;
+                              hargaJasaLaser = 0;
+                              estimasiBeratPengiriman = 0;
+                              hargaProduksi = 0;
+                              totalHargaProduksi = 0;
+                              hargaPackaging = 0;
+                              beratPackaging = 0;
                             });
                           },
                           child: Container(
@@ -872,3 +856,36 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
+// if (panjangController.text == '' || lebarController.text == '') {
+    //   showToast(message: 'panjang / lebar masih kosong!');
+    // } else if (selectedKetebalan == null) {
+    //   showToast(message: 'ketebalan masih kosong!');
+    // } else if (selectedKerumitan == null) {
+    //   showToast(message: 'kerumitan masih kosong!');
+    // } else if (jumlahController.text == '') {
+    //   showToast(message: 'jumlah masih kosong!');
+    // } else {
+    //   setState(() {
+    //     if (selectedMaterial == null) selectedMaterial = 'none';
+    //     if (selectedFinishing == null) selectedFinishing = 'none';
+    //     if (selectedPackaging == null) selectedPackaging = 'no';
+    //     double hasil = hitung(
+    //       int.parse(panjangController.text),
+    //       int.parse(lebarController.text),
+    //       double.parse(selectedKetebalan!),
+    //       selectedMaterial!,
+    //       selectedKerumitan!,
+    //       selectedFinishing!,
+    //       selectedPackaging!,
+    //     );
+    //     double edited = ((hasil / 1000) + 0.5);
+    //     double round =
+    //         (edited.roundToDouble()) * 1000 * int.parse(jumlahController.text);
+
+    //     hpp = NumberFormat.simpleCurrency(
+    //       name: 'Rp. ',
+    //       locale: 'id',
+    //     ).format(round);
+    //   });
+    // }
