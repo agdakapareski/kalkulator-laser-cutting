@@ -60,8 +60,11 @@ class _MainPageState extends State<MainPage> {
     double penambahan =
         profitController.text == '' ? 0 : double.parse(profitController.text);
     setState(() {
-      double hpp =
-          (totalHargaMaterial + hargaJasaLaser + hargaPackaging) * jumlahItem;
+      double hpp = (totalHargaMaterial +
+              hargaJasaLaser +
+              hargaPackaging +
+              ((hargaJasaLaser + hargaPackaging) * 0.3)) *
+          jumlahItem;
       double hargaJual = hpp + (hpp * (penambahan / 100));
       hargaTotal = hargaJual;
       hargaText = NumberFormat.simpleCurrency(
@@ -123,9 +126,9 @@ class _MainPageState extends State<MainPage> {
                             selectedMaterial = val as String?;
                             if (selectedMaterial == 'MS' ||
                                 selectedMaterial == 'SUS') {
-                              hargaLaserController.text = '18000';
+                              hargaLaserController.text = '35000';
                             } else {
-                              hargaLaserController.text = '25000';
+                              hargaLaserController.text = '35000';
                             }
                             hitungBerat();
                             hitungHarga();
@@ -490,7 +493,8 @@ class _MainPageState extends State<MainPage> {
                         NumberFormat.simpleCurrency(
                           name: 'Rp. ',
                           locale: 'id',
-                        ).format(hargaJasaLaser),
+                        ).format(hargaJasaLaser +
+                            (selectedMaterial == 'AL' ? 40000 : 0)),
                         style: TextStyle(
                           color: Color(0xFF148CB1),
                         ),
@@ -620,7 +624,9 @@ class _MainPageState extends State<MainPage> {
                         NumberFormat.simpleCurrency(
                           name: 'Rp. ',
                           locale: 'id',
-                        ).format(hargaJasaLaser + hargaPackaging),
+                        ).format(hargaJasaLaser +
+                            hargaPackaging +
+                            ((hargaJasaLaser + hargaPackaging) * 0.3)),
                         style: TextStyle(
                           color: Color(0xFF148CB1),
                         ),
@@ -643,8 +649,10 @@ class _MainPageState extends State<MainPage> {
                         NumberFormat.simpleCurrency(
                           name: 'Rp. ',
                           locale: 'id',
-                        ).format(
-                            (hargaJasaLaser + hargaPackaging) * jumlahItem),
+                        ).format((hargaJasaLaser +
+                                hargaPackaging +
+                                ((hargaJasaLaser + hargaPackaging) * 0.3)) *
+                            jumlahItem),
                         style: TextStyle(
                           color: Color(0xFF148CB1),
                         ),
@@ -677,7 +685,8 @@ class _MainPageState extends State<MainPage> {
                           locale: 'id',
                         ).format((totalHargaMaterial +
                                 hargaJasaLaser +
-                                hargaPackaging) *
+                                hargaPackaging +
+                                ((hargaJasaLaser + hargaPackaging) * 0.3)) *
                             jumlahItem),
                         style: TextStyle(
                           color: Color(0xFF148CB1),
