@@ -15,7 +15,7 @@ class _MainPageState extends State<MainPage> {
   double hargaTotal = 0;
   String? hargaText;
 
-  hitungBerat() {
+  void hitungBerat() {
     beratMaterialUtuh = rumusBeratMaterialUtuh(
       panjangController.text == '' ? 0 : int.parse(panjangController.text),
       lebarController.text == '' ? 0 : int.parse(lebarController.text),
@@ -24,39 +24,37 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  hitungBeratMaterialCutting() {
+  void hitungBeratMaterialCutting() {
     beratMaterialCutting = rumusBeratMaterialUtuh(
-      panjangLaserCuttingController.text == ''
-          ? 0
-          : int.parse(panjangLaserCuttingController.text),
-      lebarLaserCuttingController.text == ''
-          ? 0
-          : int.parse(lebarLaserCuttingController.text),
+      panjangController.text == '' ? 0 : int.parse(panjangController.text),
+      lebarController.text == '' ? 0 : int.parse(lebarController.text),
       selectedKetebalan == null ? 0 : double.parse(selectedKetebalan!),
       selectedMaterial ?? 'none',
     );
   }
 
-  hitungHargaJasaLaser() {
+  void hitungHargaJasaLaser() {
     hargaJasaLaser = rumusHargaJasaLaserCutting(
-      beratMaterialCutting,
+      estimasiPengerjaanMesinController.text == ''
+          ? 0
+          : double.parse(estimasiPengerjaanMesinController.text),
       pengerjaanDesainController.text == ''
           ? 0
           : double.parse(pengerjaanDesainController.text),
       hargaLaserController.text == '' ? '0' : hargaLaserController.text,
-      selectedKerumitan == null ? '0' : selectedKerumitan!,
-      selectedFinishing ?? '0',
+      selectedPackaging ?? 'none',
+      panjangController.text == '' ? 0 : double.parse(panjangController.text),
     );
   }
 
-  hitungHarga() {
+  void hitungHarga() {
     totalHargaMaterial = rumusHargaMaterial(
       beratMaterialUtuh,
       hargaMaterialController.text,
     );
   }
 
-  count() {
+  void count() {
     double penambahan =
         profitController.text == '' ? 0 : double.parse(profitController.text);
     setState(() {
@@ -169,7 +167,7 @@ class _MainPageState extends State<MainPage> {
                           hintText: 'Panjang',
                           suffixText: 'mm',
                           controller: panjangController,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.text,
                           onChanged: (value) {
                             setState(() {
                               hitungBerat();
@@ -186,7 +184,7 @@ class _MainPageState extends State<MainPage> {
                           hintText: 'Lebar',
                           suffixText: 'mm',
                           controller: lebarController,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.text,
                           onChanged: (value) {
                             setState(() {
                               hitungBerat();
@@ -312,7 +310,7 @@ class _MainPageState extends State<MainPage> {
                     hintText: 'Pengerjaan desain & setting parameter',
                     suffixText: 'jam',
                     controller: pengerjaanDesainController,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     onChanged: (val) {
                       setState(() {
                         hitungHargaJasaLaser();
@@ -325,131 +323,25 @@ class _MainPageState extends State<MainPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: CustomTextField(
-                          hintText: 'Panjang',
-                          suffixText: 'mm',
-                          controller: panjangLaserCuttingController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (val) {
-                            setState(() {
-                              hitungBeratMaterialCutting();
-                              hitungHargaJasaLaser();
-                            });
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: CustomTextField(
-                          hintText: 'Lebar',
-                          suffixText: 'mm',
-                          controller: lebarLaserCuttingController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (val) {
-                            setState(() {
-                              hitungBeratMaterialCutting();
-                              hitungHargaJasaLaser();
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+                  child: CustomTextField(
+                    hintText: 'Estimasi pengerjaan di mesin',
+                    suffixText: 'menit',
+                    controller: estimasiPengerjaanMesinController,
+                    keyboardType: TextInputType.text,
+                    onChanged: (val) {
+                      setState(() {
+                        hitungHargaJasaLaser();
+                      });
+                    },
                   ),
                 ),
-                const SizedBox(
-                  height: 14,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                  ),
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                      hint: selectedKerumitan == null
-                          ? Text('Kerumitan')
-                          : Text(
-                              selectedKerumitan!,
-                              style: TextStyle(color: Colors.black),
-                            ),
-                      isExpanded: true,
-                      iconSize: 30.0,
-                      style: TextStyle(color: Colors.black),
-                      items: kerumitan.map(
-                        (val) {
-                          return DropdownMenuItem<String>(
-                            value: val,
-                            child: Text(val),
-                          );
-                        },
-                      ).toList(),
-                      onChanged: (val) {
-                        setState(
-                          () {
-                            selectedKerumitan = val as String;
-
-                            hitungHargaJasaLaser();
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        hint: selectedFinishing == null
-                            ? Text('Finishing')
-                            : Text(
-                                selectedFinishing!,
-                                style: TextStyle(color: Colors.black),
-                              ),
-                        isExpanded: true,
-                        iconSize: 30.0,
-                        style: TextStyle(color: Colors.black),
-                        items: finishing.map(
-                          (val) {
-                            return DropdownMenuItem<String>(
-                              value: val,
-                              child: Text(val),
-                            );
-                          },
-                        ).toList(),
-                        onChanged: (val) {
-                          setState(
-                            () {
-                              selectedFinishing = val as String?;
-
-                              hitungHargaJasaLaser();
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
+                SizedBox(
                   height: 14,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: CustomTextField(
-                    hintText: 'Harga laser cutting / Kg',
+                    hintText: 'Harga laser cutting / menit',
                     suffixText: 'rupiah',
                     controller: hargaLaserController,
                     keyboardType: TextInputType.number,
@@ -460,58 +352,8 @@ class _MainPageState extends State<MainPage> {
                     },
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      '*harga laser cutting / kg',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                ),
                 SizedBox(
-                  height: 10,
-                ),
-                Divider(
-                  indent: 20,
-                  endIndent: 20,
-                  color: Colors.grey,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Harga jasa laser'),
-                      Text(
-                        NumberFormat.simpleCurrency(
-                          name: 'Rp. ',
-                          locale: 'id',
-                        ).format(hargaJasaLaser +
-                            (selectedMaterial == 'AL' ? 40000 : 0)),
-                        style: TextStyle(
-                          color: Color(0xFF148CB1),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Divider(
-                  indent: 20,
-                  endIndent: 20,
-                  color: Colors.grey,
-                ),
-                SizedBox(
-                  height: 30,
+                  height: 14,
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -522,7 +364,7 @@ class _MainPageState extends State<MainPage> {
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton(
                       hint: selectedPackaging == null
-                          ? Text('Packaging')
+                          ? Text('Jenis Packaging')
                           : Text(
                               selectedPackaging!,
                               style: TextStyle(color: Colors.black),
@@ -544,15 +386,14 @@ class _MainPageState extends State<MainPage> {
                             selectedPackaging = val as String?;
                             if (selectedPackaging == 'kardus') {
                               rumusBeratPackaging(
-                                double.parse(
-                                    panjangLaserCuttingController.text),
+                                double.parse(panjangController.text),
                               );
                             } else {
                               beratPackaging = 0;
                             }
                             hargaPackaging = rumusHargaPackaging(
                               selectedPackaging ?? 'none',
-                              double.parse(panjangLaserCuttingController.text),
+                              double.parse(panjangController.text),
                             );
                           },
                         );
@@ -581,8 +422,15 @@ class _MainPageState extends State<MainPage> {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 10,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '*harga laser cutting / kg',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
                 ),
                 Divider(
                   indent: 20,
@@ -601,7 +449,7 @@ class _MainPageState extends State<MainPage> {
                     children: [
                       Text('Estimasi berat pengiriman'),
                       Text(
-                        '${(beratMaterialCutting - (beratMaterialCutting * 0.3)) + beratPackaging} kg',
+                        '${((beratMaterialCutting - (beratMaterialCutting * 0.3)) + beratPackaging).toStringAsFixed(2)} kg',
                         style: TextStyle(
                           color: Color(0xFF148CB1),
                         ),
@@ -678,7 +526,33 @@ class _MainPageState extends State<MainPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Total harga produksi (dengan material)'),
+                      Text('Total produksi / pcs (dengan material)'),
+                      Text(
+                        NumberFormat.simpleCurrency(
+                          name: 'Rp. ',
+                          locale: 'id',
+                        ).format((totalHargaMaterial +
+                            hargaJasaLaser +
+                            hargaPackaging +
+                            ((hargaJasaLaser + hargaPackaging) * 0.3))),
+                        style: TextStyle(
+                          color: Color(0xFF148CB1),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Total produksi (dengan material)'),
                       Text(
                         NumberFormat.simpleCurrency(
                           name: 'Rp. ',
@@ -707,7 +581,7 @@ class _MainPageState extends State<MainPage> {
                   child: CustomTextField(
                     hintText: 'Profit total',
                     controller: profitController,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     suffixText: '%',
                   ),
                 ),
@@ -725,8 +599,7 @@ class _MainPageState extends State<MainPage> {
                               panjangController.text = '';
                               lebarController.text = '';
                               jumlahController.text = '1';
-                              panjangLaserCuttingController.text = '';
-                              lebarLaserCuttingController.text = '';
+                              estimasiPengerjaanMesinController.text = '';
                               hargaMaterialController.text = '';
                               hargaLaserController.text = '';
                               pengerjaanDesainController.text = '';
@@ -829,10 +702,12 @@ class _MainPageState extends State<MainPage> {
                             locale: 'id',
                           ).format(
                             hargaTotal -
-                                ((totalHargaMaterial +
+                                (totalHargaMaterial +
                                         hargaJasaLaser +
-                                        hargaPackaging) *
-                                    jumlahItem),
+                                        hargaPackaging +
+                                        ((hargaJasaLaser + hargaPackaging) *
+                                            0.3)) *
+                                    jumlahItem,
                           ),
                     ),
                   ),

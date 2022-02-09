@@ -6,6 +6,9 @@ TextEditingController lebarController = TextEditingController();
 TextEditingController panjangLaserCuttingController = TextEditingController();
 TextEditingController lebarLaserCuttingController = TextEditingController();
 
+TextEditingController estimasiPengerjaanMesinController =
+    TextEditingController();
+
 TextEditingController jumlahController = TextEditingController(text: '1');
 TextEditingController hargaMaterialController = TextEditingController();
 TextEditingController hargaLaserController = TextEditingController();
@@ -114,49 +117,17 @@ double rumusHargaMaterial(double berat, String inputHarga) {
 }
 
 double rumusHargaJasaLaserCutting(
-  double berat,
+  double estimasi,
   double desain,
-  String hargaPerKilo,
-  String kerumitan,
-  String finishing,
+  String hargaPerMenit,
+  String packaging,
+  double panjang,
 ) {
   double harga = 0;
-  double nilaiKerumitan = 0;
-  double hargaFinishing = 0;
 
-  switch (kerumitan) {
-    case 'low':
-      nilaiKerumitan = 1.3;
-      break;
-    case 'medium':
-      nilaiKerumitan = 1.6;
-      break;
-    case 'high':
-      nilaiKerumitan = 2.2;
-      break;
-    default:
-      nilaiKerumitan = 0;
-      break;
-  }
-
-  switch (finishing) {
-    case 'cat':
-      hargaFinishing = 8000;
-      break;
-    case 'cat 2 warna':
-      hargaFinishing = 16000;
-      break;
-    case 'polish':
-      hargaFinishing = 2000;
-      break;
-    default:
-      hargaFinishing = 0;
-      break;
-  }
-
-  harga = berat * double.parse(hargaPerKilo) * nilaiKerumitan +
-      hargaFinishing +
-      (desain * 1000);
+  harga = (estimasi * double.parse(hargaPerMenit)) +
+      (desain * 1000) +
+      rumusHargaPackaging(packaging, panjang);
 
   return harga;
 }
