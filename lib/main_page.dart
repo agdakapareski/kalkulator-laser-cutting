@@ -718,7 +718,7 @@ class _MainPageState extends State<MainPage> {
                 Container(
                   alignment: Alignment.center,
                   child: Text(
-                    'v 1.2.1',
+                    'v 1.2.2',
                     style: TextStyle(
                       color: Colors.grey,
                     ),
