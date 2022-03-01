@@ -24,14 +24,14 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  void hitungBeratMaterialCutting() {
-    beratMaterialCutting = rumusBeratMaterialUtuh(
-      panjangController.text == '' ? 0 : int.parse(panjangController.text),
-      lebarController.text == '' ? 0 : int.parse(lebarController.text),
-      selectedKetebalan == null ? 0 : double.parse(selectedKetebalan!),
-      selectedMaterial ?? 'none',
-    );
-  }
+  // void hitungBeratMaterialCutting() {
+  //   beratMaterialCutting = rumusBeratMaterialUtuh(
+  //     panjangController.text == '' ? 0 : int.parse(panjangController.text),
+  //     lebarController.text == '' ? 0 : int.parse(lebarController.text),
+  //     selectedKetebalan == null ? 0 : double.parse(selectedKetebalan!),
+  //     selectedMaterial ?? 'none',
+  //   );
+  // }
 
   void hitungHargaJasaLaser() {
     hargaJasaLaser = rumusHargaJasaLaserCutting(
@@ -130,7 +130,7 @@ class _MainPageState extends State<MainPage> {
                             }
                             hitungBerat();
                             hitungHarga();
-                            hitungBeratMaterialCutting();
+                            // hitungBeratMaterialCutting();
                             hitungHargaJasaLaser();
                           },
                         );
@@ -231,7 +231,7 @@ class _MainPageState extends State<MainPage> {
 
                             hitungBerat();
                             hitungHarga();
-                            hitungBeratMaterialCutting();
+                            // hitungBeratMaterialCutting();
                             hitungHargaJasaLaser();
                           },
                         );
@@ -449,7 +449,7 @@ class _MainPageState extends State<MainPage> {
                     children: [
                       Text('Estimasi berat pengiriman'),
                       Text(
-                        '${((beratMaterialCutting - (beratMaterialCutting * 0.3)) + beratPackaging).toStringAsFixed(2)} kg',
+                        '${((beratMaterialUtuh - (beratMaterialUtuh * 0.3)) + beratPackaging).toStringAsFixed(2)} kg',
                         style: TextStyle(
                           color: Color(0xFF148CB1),
                         ),
